@@ -1,20 +1,147 @@
 <!--The content below is only a placeholder and can be replaced.-->
+<mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+
 <div style="text-align:center">
   <h1>
-    Welcome to {{title}}!
+   Todo List
   </h1>
-  <img width="300" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+  <img width="200" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
 </div>
-<h2>Here are some links to help you start: </h2>
+
+<div style="padding: 0px 20px 0px;text-align: center;">
+  <form #form="ngForm" (ngSubmit)="addNote(text)">
+      <mat-form-field style="width:40%">
+          <input #text matInput placeholder="What are you do?">
+      </mat-form-field>
+      <button type="submit" style="margin-left:20px" mat-raised-button color="accent">
+          <mat-icon mat-list-icon>add</mat-icon>
+      </button>
+  </form>
+  
+  
+  <mat-list style="padding: 0 30px 0;" *ngIf="lists.length > 0">
+    <h3 mat-subheader>Lists</h3>
+    <mat-list-item *ngFor="let list of lists;let i = index">
+      <mat-icon mat-list-icon><span *ngIf="list.completed">done</span><span *ngIf="!list.completed">note</span></mat-icon>
+      <h4 mat-line>{{ list.text }}</h4>
+      <p mat-line>{{ list.completedAt | date:'fullDate' }}</p>
+      <button *ngIf="!list.completed" mat-raised-button color="primary" (click)="done(list)">Done</button>
+      <button *ngIf="list.completed" mat-raised-button color="primary" (click)="redo(list)">Redo</button>
+      <button style="margin-left: 16px;" mat-raised-button color="warn" (click)="remove(list._id,i)">Remove</button>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    
+  </mat-list>
+  
+</div>
+
+
+<!-- <mat-icon svgIcon="thumbs-up"></mat-icon>
+
+<button mat-fab color="primary">
+    <mat-icon mat-list-icon>done</mat-icon>
+</button> -->
+
+
+
+
+<!-- <h2>Here are some links to help you start: </h2>
 <ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
+  <h3>Basic Buttons</h3>
+  <div class="button-row">
+    <button mat-button>Basic</button>
+    <button  mat-button color="primary">Primary</button>
+    <button mat-button color="accent">Accent</button>
+    <button mat-button color="warn">Warn</button>
+    <button mat-button disabled>Disabled</button>
+    <a mat-button routerLink=".">Link</a>
+  </div>
+
+  <h3>Raised Buttons</h3>
+  <div class="button-row">
+    <button mat-raised-button>Basic</button>
+    <button mat-raised-button color="primary">Primary</button>
+    <button mat-raised-button color="accent">Accent</button>
+    <button mat-raised-button color="warn">Warn</button>
+    <button mat-raised-button disabled>Disabled</button>
+    <a mat-raised-button routerLink=".">Link</a>
+  </div>
+  
+  <h3>Icon Buttons</h3>
+  <div class="button-row">
+    <button mat-icon-button>
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-icon-button color="primary">
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-icon-button color="accent">
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-icon-button color="warn">
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <button mat-icon-button disabled>
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+  </div>
+  
+  <h3>Fab Buttons</h3>
+  <div class="button-row">
+    <button mat-fab>Basic</button>
+    <button mat-fab color="primary">Primary</button>
+    <button mat-fab color="accent">Accent</button>
+    <button mat-fab color="warn">Warn</button>
+    <button mat-fab disabled>Disabled</button>
+    <button mat-fab>
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <a mat-fab routerLink=".">Link</a>
+  </div>
+  
+  <h3>Mini Fab Buttons</h3>
+  <div class="button-row">
+    <button mat-mini-fab>Basic</button>
+    <button mat-mini-fab color="primary">Primary</button>
+    <button mat-mini-fab color="accent">Accent</button>
+    <button mat-mini-fab color="warn">Warn</button>
+    <button mat-mini-fab disabled>Disabled</button>
+    <button mat-mini-fab>
+      <mat-icon aria-label="Example icon-button with a heart icon">favorite</mat-icon>
+    </button>
+    <a mat-mini-fab routerLink=".">Link</a>
+  </div>
+  
 </ul>
 
+<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile
+      *ngFor="let tile of tiles"
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows"
+      [style.background]="tile.color">
+    {{tile.text}}
+  </mat-grid-tile>
+</mat-grid-list>
+
+<table class="example-full-width" cellspacing="0"><tr>
+  <td><mat-form-field class="example-full-width">
+    <input matInput placeholder="First name">
+  </mat-form-field></td>
+  <td><mat-form-field class="example-full-width">
+    <input matInput placeholder="Long Last Name That Will Be Truncated">
+  </mat-form-field></td>
+</tr></table>
+
+<p>
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Address">1600 Amphitheatre Pkwy</textarea>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Address 2"></textarea>
+  </mat-form-field>
+</p>
+ -->
+
+ <!-- <button mat-raised-button color="warn">Warn</button> -->
