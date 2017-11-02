@@ -6,6 +6,7 @@ import 'rxjs/add/operator/take';
 @Injectable()
 export class TodosService{
     url = "https://haunted-plague-11559.herokuapp.com/api/todos";
+    // url = "http://localhost:3000/api/todos";
     constructor(private http:HttpClient){
 
     }
